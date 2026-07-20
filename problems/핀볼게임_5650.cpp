@@ -20,7 +20,7 @@ using namespace std;
 - s=0; 1 리턴
 */
 struct Ball {
-  int r,c,dir,s;
+  int r,c,dir,cnt; 
 };
 
 struct Node {
@@ -37,6 +37,7 @@ int main()
   cin >> T;
   for(int t=1; t<=T; t++)
   {
+    int mx = -1;
     int score = 0;
     int N;
     cin >> N;
@@ -50,7 +51,60 @@ int main()
         if(board[i][j] >= 6 && board[i][j] <= 10)
           w[board[i][j]].push_back({i,j});
       }
+    queue<Ball> q;
+    for(int i=0; i<N; i++)
+      for(int j=0; j<N; j++)
+      {
+        // i,j 에서 시작하여 dir 방향으로 이동
+        int r = i, c = j; // 피벗
+        int nr,nc,num,ndir,cnt;
+        ndir = cnt = 0;
+        // 4가지 시작 방향
+        for(int dir=0; dir<4; dir++)
+        {
+          for(int d=1;;d++)
+          {
+            nr = r + dr[dir]*d;
+            nc = c + dc[dir]*d;
+            if(nr<0||nc<0||nr>=N||nc>=N) 
+            {
+              mx = max(mx, 2*cnt+1);
+              goto NEXT;
+            }
+            num = board[nr][nc];
+            // 1. (1) ~ (5)
+            if(num >= 1 && num <= 5)
+            {
 
+            }
+            // 2. (6) ~ (10)
+            else if (num >= 6 && num <= 10)
+            {
+              int tr = w[num][0].r;
+              int tc = w[num][0].c;
+              if(i == tr && j == tc) {
+                r = w[num][1].r;
+                c = w[num][1].c;
+              } else {
+                r = tr;
+                c = tc;
+              }
+            }
+            // 3. (-1)
+            else if (num == -1)
+            {
+              mx = max(mx, cnt);
+              goto NEXT;
+            }
+            else 
+            {
+
+            }
+          }
+
+        }
+        NEXT: ;
+      }
     cout << "#" << t << " " << score << "\n";
   }
   return 0;
