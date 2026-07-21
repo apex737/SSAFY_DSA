@@ -64,6 +64,7 @@ int main()
         {
           for(int d=1;;d++)
           {
+            // 다음 스텝
             nr = r + dr[dir]*d;
             nc = c + dc[dir]*d;
             if(nr<0||nc<0||nr>=N||nc>=N) 
@@ -72,16 +73,23 @@ int main()
               goto NEXT;
             }
             num = board[nr][nc];
+            int tr, tc;
+            int cwDir, ccwDir;
             // 1. (1) ~ (5)
-            if(num >= 1 && num <= 5)
+            if(num >= 1 && num <= 4)
             {
+              cwDir = (dir+3) % 4;
+              ccwDir = (dir+1) % 4;
+
+              // 2. 직각에 튕겨 나오면 cnt 올리고 피벗 변경
 
             }
             // 2. (6) ~ (10)
             else if (num >= 6 && num <= 10)
             {
-              int tr = w[num][0].r;
-              int tc = w[num][0].c;
+              // 웜홀에 닿으면 출구쪽으로 피벗을 이동시킨다
+              tr = w[num][0].r;
+              tc = w[num][0].c;
               if(i == tr && j == tc) {
                 r = w[num][1].r;
                 c = w[num][1].c;
@@ -91,14 +99,11 @@ int main()
               }
             }
             // 3. (-1)
-            else if (num == -1)
+            else if (num == -1 || num == 5)
             {
+              // 블랙홀에 빠지면 바로 종료
               mx = max(mx, cnt);
               goto NEXT;
-            }
-            else 
-            {
-
             }
           }
 
